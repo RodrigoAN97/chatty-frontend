@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,7 @@ import axios from "axios";
 import { registerRoute } from "../utils/apiRoutes";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -25,6 +26,12 @@ export default function Register() {
         email,
         password,
       });
+      if (!data.status) {
+        toast.error(data.msg, toastOptions);
+      } else {
+        localStorage.setItem("chatty-user", JSON.stringify(data.user));
+        navigate("/");
+      }
     }
   };
 
