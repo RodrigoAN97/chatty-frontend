@@ -1,15 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { emailRegex } from "../utils/regex";
+import { toastOptions } from "../utils/toastify";
+import axios from "axios";
+import { registerRoute } from "../utils/apiRoutes";
 
 export default function Register() {
-  const handleSubmit = (e) => {
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("form");
+    if (handleValidation()) {
+      const { password, username, email } = values;
+      const { data } = await axios.post(registerRoute, {
+        username,
+        email,
+        password,
+      });
+    }
   };
 
   const handleChange = (e) => {
-    e.preventDefault();
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleValidation = () => {
+    const { password, confirmPassword, username, email } = values;
+    if (password !== confirmPassword) {
+      toast.error("Password and Confirm Password should be the same", {
+        toastOptions,
+      });
+      return false;
+    } else if (username.length < 3) {
+      toast.error("Username should have at least 3 characters", {
+        toastOptions,
+      });
+      return false;
+    } else if (password.length < 8) {
+      toast.error("Password should have at least 8 characters", {
+        toastOptions,
+      });
+      return false;
+    } else if (!email.match(emailRegex)) {
+      toast.error("Email is not valid", {
+        toastOptions,
+      });
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -49,6 +95,7 @@ export default function Register() {
             Already have an account? <Link to="/login">Login</Link>
           </span>
         </form>
+        <ToastContainer />
       </FormContainer>
     </>
   );
