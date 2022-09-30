@@ -1,9 +1,12 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 const app = express();
 const server = createServer(app);
+dotenv.config();
 
 const io = new Server(server, {
   cors: {
@@ -14,14 +17,24 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  console.log("what is socket", socket);
-  console.log("Socket is active to be connected");
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("DB connection successful"))
+  .catch((err) => console.log(err.message, "error"));
 
-  socket.on("chat", (payload) => {
-    console.log("what is payload", payload);
-    io.emit("chat", payload);
-  });
-});
+// io.on("connection", (socket) => {
+//   console.log("what is socket", socket);
+//   console.log("Socket is active to be connected");
 
-server.listen(8000, () => console.log("⚡️server⚡️ is active in port 8000"));
+//   socket.on("chat", (payload) => {
+//     console.log("what is payload", payload);
+//     io.emit("chat", payload);
+//   });
+// });
+
+server.listen(process.env.PORT, () =>
+  console.log(`⚡️server⚡️ is active in port ${process.env.PORT}`)
+);
