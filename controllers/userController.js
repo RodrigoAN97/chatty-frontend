@@ -2,6 +2,7 @@ import { User } from "../model/userModels.js";
 import bcrypt from "bcrypt";
 
 export const register = async (req, res, next) => {
+  console.log("register route");
   try {
     const { username, email, password } = req.body;
 
@@ -21,6 +22,26 @@ export const register = async (req, res, next) => {
     });
     delete user.password;
 
+    return res.json({ status: true, user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const login = async (req, res, next) => {
+  console.log("login route");
+  try {
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user) return res.json({ msg: "Incorrect username", status: false });
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.json({ msg: "Incorrect password", status: false });
+    delete user.password;
+
+    console.log(user);
     return res.json({ status: true, user });
   } catch (err) {
     next(err);

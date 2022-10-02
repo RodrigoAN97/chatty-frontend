@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { userRoutes } from "./routes/userRoutes.js";
+import { userRouter } from "./routes/userRoutes.js";
 import cors from "cors";
 
 const app = express();
@@ -39,7 +39,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/auth", userRoutes);
+app.use("/api/auth", userRouter);
 
 server.listen(process.env.PORT, () =>
   console.log(`⚡️server⚡️ is active in port ${process.env.PORT}`)
