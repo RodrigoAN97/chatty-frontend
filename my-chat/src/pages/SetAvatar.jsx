@@ -27,7 +27,6 @@ export default function SetAvatar() {
       async function fetchData() {
         const data = [];
         for (let i = 0; i < 4; i++) {
-          console.log("call api");
           const image = await axios.get(
             `${avatarsApi}/${Math.round(Math.random() * 1000)}`
           );
