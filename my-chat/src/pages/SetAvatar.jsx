@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,6 +9,7 @@ import { setAvatarRoute } from "../utils/apiRoutes";
 import { Buffer } from "buffer";
 
 export default function SetAvatar() {
+  const effectRan = useRef(false);
   const navigate = useNavigate();
   const avatarsApi = "https://api.multiavatar.com/45678945";
   const [avatars, setAvatars] = useState([]);
@@ -22,20 +23,24 @@ export default function SetAvatar() {
   };
 
   useEffect(() => {
-    async function fetchData() {
-      const data = [];
-      for (let i = 0; i < 4; i++) {
-        const image = await axios.get(
-          `${avatarsApi}/${Math.round(Math.random() * 1000)}`
-        );
-        const buffer = new Buffer(image.data);
-        data.push(buffer.toString("base64"));
+    if (effectRan.current === false) {
+      async function fetchData() {
+        const data = [];
+        for (let i = 0; i < 4; i++) {
+          console.log("call api");
+          const image = await axios.get(
+            `${avatarsApi}/${Math.round(Math.random() * 1000)}`
+          );
+          const buffer = new Buffer(image.data);
+          data.push(buffer.toString("base64"));
+        }
+        setAvatars(data);
+        setIsLoading(false);
       }
-      setAvatars(data);
-      setIsLoading(false);
+      fetchData();
     }
-    fetchData();
-  });
+    return () => (effectRan.current = true);
+  }, []);
 
   return (
     <>
