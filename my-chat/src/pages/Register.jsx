@@ -7,6 +7,7 @@ import { emailRegex } from "../utils/regex";
 import { toastOptions } from "../utils/toastify";
 import axios from "axios";
 import { registerRoute } from "../utils/apiRoutes";
+import { getUser, setUser } from "../utils/localStorage";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function Register() {
   });
 
   useEffect(() => {
-    if (localStorage.getItem("chatty-user")) {
+    if (getUser()) {
       navigate("/");
     }
   }, [navigate]);
@@ -35,7 +36,7 @@ export default function Register() {
       if (!data.status) {
         toast.error(data.msg, toastOptions);
       } else {
-        localStorage.setItem("chatty-user", JSON.stringify(data.user));
+        setUser();
         navigate("/");
       }
     }

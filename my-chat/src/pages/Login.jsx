@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toastOptions } from "../utils/toastify";
 import axios from "axios";
 import { loginRoute } from "../utils/apiRoutes";
+import { getUser, setUser } from "../utils/localStorage";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,8 +18,8 @@ export default function Login() {
   });
 
   useEffect(() => {
-    if(localStorage.getItem('chatty-user')){
-      navigate('/');
+    if (getUser()) {
+      navigate("/");
     }
   }, [navigate]);
 
@@ -34,7 +35,7 @@ export default function Login() {
       if (!data.status) {
         toast.error(data.msg, toastOptions);
       } else {
-        localStorage.setItem("chatty-user", JSON.stringify(data.user));
+        setUser();
         navigate("/");
       }
     }
