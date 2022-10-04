@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { allUsersRoute } from "../utils/apiRoutes";
 import Contacts from "../components/Contacts";
+import Welcome from "../components/Welcome";
+import ChatContainer from "../components/ChatContainer";
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -42,6 +44,11 @@ export default function Chat() {
           currentUser={currentUser}
           changeChat={handleChatChange}
         />
+        {!currentChat ? (
+          <Welcome currentUser={currentUser} />
+        ) : (
+          <ChatContainer />
+        )}
       </div>
     </Container>
   );
