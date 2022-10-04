@@ -16,6 +16,12 @@ export default function SetAvatar() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState();
 
+  useEffect(() => {
+    if (!getUser()) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   const setProfilePicture = async () => {
     if (!selectedAvatar) {
       toast.error("Please select an avatar", toastOptions);
