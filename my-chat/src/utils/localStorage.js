@@ -5,5 +5,5 @@ export function setUser(userData) {
 }
 
 export function getUser() {
-  return localStorage.getItem(userKey);
+  return JSON.parse(localStorage.getItem(userKey));
 }

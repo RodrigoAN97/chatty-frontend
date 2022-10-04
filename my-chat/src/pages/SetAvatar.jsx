@@ -7,6 +7,7 @@ import { toastOptions } from "../utils/toastify";
 import axios from "axios";
 import { setAvatarRoute } from "../utils/apiRoutes";
 import { Buffer } from "buffer";
+import { getUser, setUser } from "../utils/localStorage";
 
 export default function SetAvatar() {
   const effectRan = useRef(false);
@@ -23,8 +24,22 @@ export default function SetAvatar() {
   }, [navigate]);
 
   const setProfilePicture = async () => {
-    if (!selectedAvatar) {
+    if (selectedAvatar === undefined) {
       toast.error("Please select an avatar", toastOptions);
+    } else {
+      const user = getUser();
+      const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+        image: avatars[selectedAvatar],
+      });
+
+      if (data.isSet) {
+        user.isAvatarImageSet = true;
+        user.avatarImage = data.image;
+        setUser(user);
+        navigate("/");
+      } else {
+        toast.error("Error setting avatar. Please try again.", toastOptions);
+      }
     }
   };
 
