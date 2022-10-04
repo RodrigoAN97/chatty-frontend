@@ -8,4 +8,9 @@ const userSchema = new mongoose.Schema({
   avatarImage: { type: String, default: "" },
 });
 
+const avatarSchema = new mongoose.Schema({
+  base64: { type: String, required: true },
+});
+
 export const User = mongoose.model("user", userSchema);
+export const Avatar = mongoose.model("avatar", avatarSchema);
