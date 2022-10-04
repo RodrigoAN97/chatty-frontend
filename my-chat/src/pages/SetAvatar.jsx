@@ -5,14 +5,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastOptions } from "../utils/toastify";
 import axios from "axios";
-import { setAvatarRoute } from "../utils/apiRoutes";
-import { Buffer } from "buffer";
+import {
+  getAvatarsRoute,
+  setAvatarRoute,
+} from "../utils/apiRoutes";
 import { getUser, setUser } from "../utils/localStorage";
 
 export default function SetAvatar() {
   const effectRan = useRef(false);
   const navigate = useNavigate();
-  const avatarsApi = "https://api.multiavatar.com/45678945";
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState();
@@ -46,21 +47,14 @@ export default function SetAvatar() {
   useEffect(() => {
     if (effectRan.current === false) {
       async function fetchData() {
-        const data = [];
-        for (let i = 0; i < 4; i++) {
-          const image = await axios.get(
-            `${avatarsApi}/${Math.round(Math.random() * 1000)}`
-          );
-          const buffer = new Buffer(image.data);
-          data.push(buffer.toString("base64"));
-        }
-        setAvatars(data);
+        const av = await axios.get(getAvatarsRoute);
+        setAvatars(av.data.avatars);
         setIsLoading(false);
       }
       fetchData();
     }
     return () => (effectRan.current = true);
-  }, []);
+  }, [avatars]);
 
   return (
     <>
@@ -83,7 +77,7 @@ export default function SetAvatar() {
                   }`}
                 >
                   <img
-                    src={`data:image/svg+xml;base64,${avatar}`}
+                    src={`data:image/svg+xml;base64,${avatar.base64}`}
                     alt="avatar"
                     onClick={() => setSelectedAvatar(index)}
                   />
@@ -114,6 +108,7 @@ const Container = styled.div`
     max-inline-size: 100%;
   }
   .title-container {
+    text-align: center;
     h1 {
       color: white;
     }
@@ -121,6 +116,11 @@ const Container = styled.div`
   .avatars {
     display: flex;
     gap: 2rem;
+    max-width: 80vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 50vh;
+    overflow: auto;
     .avatar {
       cursor: pointer;
       border: 0.4rem solid transparent;
