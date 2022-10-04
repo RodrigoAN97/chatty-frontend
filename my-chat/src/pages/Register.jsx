@@ -36,7 +36,7 @@ export default function Register() {
       if (!data.status) {
         toast.error(data.msg, toastOptions);
       } else {
-        setUser();
+        setUser(data.user);
         navigate("/");
       }
     }
