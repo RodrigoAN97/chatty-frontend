@@ -4,11 +4,13 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { allUsersRoute } from "../utils/apiRoutes";
+import Contacts from "../components/Contacts";
 
 export default function Chat() {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState();
+  const [currentChat, setCurrentChat] = useState();
 
   useEffect(() => {
     if (!getUser()) {
@@ -19,18 +21,28 @@ export default function Chat() {
   }, [navigate]);
 
   useEffect(() => {
-    if(currentUser){
+    if (currentUser) {
       async function getAllUsers() {
-        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-        setContacts(data.users);
+        const users = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+        setContacts(users.data);
       }
       getAllUsers();
     }
   }, [currentUser]);
 
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat);
+  };
+
   return (
     <Container>
-      <div className="container"></div>
+      <div className="container">
+        <Contacts
+          contacts={contacts}
+          currentUser={currentUser}
+          changeChat={handleChatChange}
+        />
+      </div>
     </Container>
   );
 }
