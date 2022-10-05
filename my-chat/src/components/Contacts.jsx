@@ -128,7 +128,6 @@ const Container = styled.div`
       }
     }
     .username {
-      display: none;
       h2 {
         color: white;
       }
