@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { userRouter } from "./routes/userRoutes.js";
 import cors from "cors";
+import { messagesRouter } from "./routes/messagesRoute.js";
 
 const app = express();
 const server = createServer(app);
@@ -40,6 +41,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", userRouter);
+app.use("/api/messages", messagesRouter);
 
 server.listen(process.env.PORT, () =>
   console.log(`⚡️server⚡️ is active in port ${process.env.PORT}`)
