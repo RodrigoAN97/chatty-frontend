@@ -1,4 +1,8 @@
-import { addMessage, getAllMessages } from "../controllers/messagesController";
+import {
+  addMessage,
+  getAllMessages,
+} from "../controllers/messagesController.js";
+import express from "express";
 
 export const messagesRouter = express.Router();
 
