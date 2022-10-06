@@ -126,7 +126,7 @@ const Container = styled.div`
       }
     }
     button {
-      padding: 0.3rem 2rem;
+      padding: 0.3rem 1rem;
       border-radius: 2rem;
       display: flex;
       justify-content: center;
