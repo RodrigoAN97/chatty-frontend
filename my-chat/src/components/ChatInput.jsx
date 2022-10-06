@@ -82,6 +82,7 @@ const Container = styled.div`
         .emoji-search {
           background-color: transparent;
           border-color: #9186f3;
+          color: white;
         }
         .emoji-group:before {
           background-color: #080420;
