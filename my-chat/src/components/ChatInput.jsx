@@ -1,8 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 import { IoMdSend } from "react-icons/io";
 import { BsEmojiSmileFill } from "react-icons/bs";
+
+let useClickOutside = (customHandler) => {
+  let domNode = useRef();
+
+  useEffect(() => {
+    const handler = (event) => {
+      console.log(domNode);
+      if (!domNode.current.contains(event.target)) {
+        customHandler();
+      }
+    };
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
+
+  return domNode;
+};
 
 export default function ChatInput({ handleSendMsg }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -26,12 +46,18 @@ export default function ChatInput({ handleSendMsg }) {
     }
   };
 
+  const pickerRef = useClickOutside(() => {
+    setShowEmojiPicker(false);
+  });
+
   return (
     <Container>
       <div className="button-container">
         <div className="emoji">
           <BsEmojiSmileFill onClick={handleEmojiPicker} />
-          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
+          <div ref={pickerRef}>
+            {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
+          </div>
         </div>
       </div>
       <form className="input-container" onSubmit={(e) => sendChat(e)}>
