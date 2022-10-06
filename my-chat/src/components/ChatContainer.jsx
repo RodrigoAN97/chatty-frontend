@@ -46,8 +46,6 @@ export default function ChatContainer({ currentChat, currentUser }) {
         </div>
         <Logout />
       </div>
-      <div className="chat-messages"></div>
-      <div className="chat-input"></div>
       {/* <Messages /> */}
       <div className="chat-messages">
         {messages &&
@@ -73,9 +71,10 @@ export default function ChatContainer({ currentChat, currentUser }) {
 }
 
 const Container = styled.div`
-  padding-top: 1rem;
-  /* display: grid;
-  grid-template-rows: 10% 78% 12%; */
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   .chat-header {
     display: flex;
     justify-content: space-between;
