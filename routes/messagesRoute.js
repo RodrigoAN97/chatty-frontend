@@ -6,5 +6,5 @@ import express from "express";
 
 export const messagesRouter = express.Router();
 
-messagesRouter.post("add-message", addMessage);
-messagesRouter.post("get-messages", getAllMessages);
+messagesRouter.post("/add-message", addMessage);
+messagesRouter.post("/get-messages", getAllMessages);
