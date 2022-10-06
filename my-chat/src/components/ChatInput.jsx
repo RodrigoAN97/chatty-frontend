@@ -1,28 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 import { IoMdSend } from "react-icons/io";
 import { BsEmojiSmileFill } from "react-icons/bs";
-
-let useClickOutside = (customHandler) => {
-  let domNode = useRef();
-
-  useEffect(() => {
-    const handler = (event) => {
-      console.log(domNode);
-      if (!domNode.current.contains(event.target)) {
-        customHandler();
-      }
-    };
-    document.addEventListener("mousedown", handler);
-
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  });
-
-  return domNode;
-};
+import { useClickOutside } from "../utils/hooks";
 
 export default function ChatInput({ handleSendMsg }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
