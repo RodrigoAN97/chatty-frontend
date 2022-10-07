@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { getAllMessagesRoute, sendMessageRoute } from "../utils/apiRoutes";
 import ChatInput from "./ChatInput";
 import Logout from "./Logout";
-import Messages from "./Messages";
-import { v4 as uuid } from "uuid";
 
 export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [messages, setMessages] = useState();
