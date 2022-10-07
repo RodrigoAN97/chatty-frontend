@@ -73,7 +73,6 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
         </div>
         <Logout />
       </div>
-      {/* <Messages /> */}
       <div className="chat-messages">
         {messages &&
           messages.map((message, index) => {
