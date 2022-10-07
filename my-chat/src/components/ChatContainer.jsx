@@ -99,11 +99,11 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
   height: inherit;
+  width: inherit;
   .chat-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 2rem;
     .user-details {

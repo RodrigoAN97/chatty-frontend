@@ -8,13 +8,16 @@ import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import ChatContainer from "../components/ChatContainer";
 import { io } from "socket.io-client";
+import { BiMenu } from "react-icons/bi";
 
 export default function Chat() {
   const socket = useRef();
+  const chatRef = useRef();
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [currentChat, setCurrentChat] = useState();
+  const [contactsOpen, setContactsOpen] = useState(true);
 
   useEffect(() => {
     if (!getUser()) {
@@ -23,6 +26,16 @@ export default function Chat() {
       setCurrentUser(getUser());
     }
   }, [navigate]);
+
+  const toggleContacts = () => {
+    const newValue = !contactsOpen;
+    setContactsOpen(newValue);
+    if (newValue) {
+      chatRef.current.style.filter = "blur(2px)";
+    } else {
+      chatRef.current.style.filter = "blur(0)";
+    }
+  };
 
   useEffect(() => {
     if (currentUser) {
@@ -48,20 +61,27 @@ export default function Chat() {
   return (
     <Container>
       <div className="container">
-        <Contacts
-          contacts={contacts}
-          currentUser={currentUser}
-          changeChat={handleChatChange}
-        />
-        {!currentChat ? (
-          <Welcome currentUser={currentUser} />
-        ) : (
-          <ChatContainer
-            currentChat={currentChat}
+        <button className="toggle-contacts" onClick={toggleContacts}>
+          <BiMenu />
+        </button>
+        {contactsOpen && (
+          <Contacts
+            contacts={contacts}
             currentUser={currentUser}
-            socket={socket}
+            changeChat={handleChatChange}
           />
         )}
+        <div ref={chatRef} className="chat-ref">
+          {!currentChat ? (
+            <Welcome currentUser={currentUser} />
+          ) : (
+            <ChatContainer
+              currentChat={currentChat}
+              currentUser={currentUser}
+              socket={socket}
+            />
+          )}
+        </div>
       </div>
     </Container>
   );
@@ -77,6 +97,7 @@ const Container = styled.div`
   align-items: center;
   background-color: #131324;
   .container {
+    position: relative;
     height: 85vh;
     width: 85vw;
     background-color: #00000076;
@@ -84,6 +105,24 @@ const Container = styled.div`
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
+    }
+    .toggle-contacts {
+      position: absolute;
+      margin: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: #9a86f3;
+      border: none;
+      cursor: pointer;
+      z-index: 9;
+    }
+    .chat-ref {
+      width: inherit;
+      height: inherit;
+      filter: blur(2px);
     }
   }
 `;

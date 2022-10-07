@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState();
-  const [width, setWidth] = useState();
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
   };
-
-  const handleWidth = () => {
-    setWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    handleWidth();
-    window.addEventListener("resize", handleWidth);
-
-    return () => {
-      window.removeEventListener("resize", handleWidth);
-    };
-  }, []);
 
   return (
     <>
@@ -54,7 +40,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
               );
             })}
           </div>
-          <div className="currentUser">
+          <div className="current-user">
             <div className="avatar">
               <img
                 src={`data:image/svg+xml;base64,${currentUser.avatarImage}`}
@@ -76,6 +62,10 @@ const Container = styled.div`
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
   background-color: #080420;
+  height: 100%;
+  width: 250px;
+  z-index: 8;
+  position: absolute;
   .brand {
     display: flex;
     align-items: center;
@@ -129,12 +119,12 @@ const Container = styled.div`
       background-color: #9186f3;
     }
   }
-  .currentUser {
+  .current-user {
     background-color: #0d0d30;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     .avatar {
       img {
         height: 4rem;

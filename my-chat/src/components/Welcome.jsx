@@ -23,6 +23,8 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   color: white;
+  height: inherit;
+  width: inherit;
   img {
     height: 20rem;
   }
