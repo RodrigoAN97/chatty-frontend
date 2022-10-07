@@ -6,7 +6,6 @@ import dotenv from "dotenv";
 import { userRouter } from "./routes/userRoutes.js";
 import cors from "cors";
 import { messagesRouter } from "./routes/messagesRoute.js";
-import { Socket } from "socket.io";
 
 const app = express();
 const server = createServer(app);
@@ -19,16 +18,6 @@ mongoose
   })
   .then(() => console.log("DB connection successful"))
   .catch((err) => console.log(err.message, "error"));
-
-// io.on("connection", (socket) => {
-//   console.log("what is socket", socket);
-//   console.log("Socket is active to be connected");
-
-//   socket.on("chat", (payload) => {
-//     console.log("what is payload", payload);
-//     io.emit("chat", payload);
-//   });
-// });
 
 app.use(cors());
 app.use(express.json());
