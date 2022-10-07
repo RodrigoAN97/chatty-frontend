@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState();
+  const [width, setWidth] = useState();
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
   };
+
+  const handleWidth = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    handleWidth();
+    window.addEventListener("resize", handleWidth);
+
+    return () => {
+      window.removeEventListener("resize", handleWidth);
+    };
+  }, []);
 
   return (
     <>
