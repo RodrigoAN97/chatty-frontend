@@ -6,19 +6,11 @@ import dotenv from "dotenv";
 import { userRouter } from "./routes/userRoutes.js";
 import cors from "cors";
 import { messagesRouter } from "./routes/messagesRoute.js";
+import { Socket } from "socket.io";
 
 const app = express();
 const server = createServer(app);
 dotenv.config();
-
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true,
-  },
-});
 
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -46,3 +38,27 @@ app.use("/api/messages", messagesRouter);
 server.listen(process.env.PORT, () =>
   console.log(`⚡️server⚡️ is active in port ${process.env.PORT}`)
 );
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-message", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("message-received", data.message);
+    }
+  });
+});
