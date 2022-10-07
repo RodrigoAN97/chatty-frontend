@@ -100,10 +100,10 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 }
 
 const Container = styled.div`
-  padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding: 1rem;
+  height: inherit;
   .chat-header {
     display: flex;
     justify-content: space-between;
