@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BiPowerOff } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 export default function Logout() {
@@ -11,7 +11,7 @@ export default function Logout() {
   };
   return (
     <Button onClick={handleClick}>
-      <BiPowerOff />
+      <BiLogOut />
     </Button>
   );
 }
@@ -25,6 +25,9 @@ const Button = styled.button`
   background-color: #9a86f3;
   border: none;
   cursor: pointer;
+  position: absolute;
+  right: 0;
+  margin: 10px;
   svg {
     font-size: 1.3rem;
     color: #ebe7ff;

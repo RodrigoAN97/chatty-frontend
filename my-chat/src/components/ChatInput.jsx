@@ -59,10 +59,10 @@ export default function ChatInput({ handleSendMsg }) {
 const Container = styled.div`
   display: grid;
   grid-template-columns: 5% 95%;
+  width: auto;
   align-items: center;
   background-color: #080420;
-  padding: 0 2rem;
-  padding-bottom: 0.3rem;
+  padding: 0.5rem;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     padding: 0 1rem;
     gap: 1rem;
@@ -72,6 +72,7 @@ const Container = styled.div`
     align-items: center;
     color: white;
     gap: 1rem;
+    margin: auto;
     .emoji {
       position: relative;
       svg {
@@ -112,8 +113,9 @@ const Container = styled.div`
     width: 100%;
     border-radius: 2rem;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
     background-color: #ffffff34;
     input {
       width: 90%;

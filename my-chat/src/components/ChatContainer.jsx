@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { getAllMessagesRoute, sendMessageRoute } from "../utils/apiRoutes";
 import ChatInput from "./ChatInput";
-import Logout from "./Logout";
 
 export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [messages, setMessages] = useState();
@@ -71,7 +70,6 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
-        <Logout />
       </div>
       <div className="chat-messages">
         {messages &&

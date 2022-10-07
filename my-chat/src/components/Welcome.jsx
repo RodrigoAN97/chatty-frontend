@@ -25,6 +25,7 @@ const Container = styled.div`
   color: white;
   height: inherit;
   width: inherit;
+  text-align: center;
   img {
     height: 20rem;
   }

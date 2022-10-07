@@ -9,6 +9,7 @@ import Welcome from "../components/Welcome";
 import ChatContainer from "../components/ChatContainer";
 import { io } from "socket.io-client";
 import { BiMenu } from "react-icons/bi";
+import Logout from "../components/Logout";
 
 export default function Chat() {
   const socket = useRef();
@@ -72,6 +73,7 @@ export default function Chat() {
           />
         )}
         <div ref={chatRef} className="chat-ref">
+          <Logout />
           {!currentChat ? (
             <Welcome currentUser={currentUser} />
           ) : (
@@ -118,6 +120,10 @@ const Container = styled.div`
       border: none;
       cursor: pointer;
       z-index: 9;
+      svg {
+        font-size: 1.3rem;
+        color: #ebe7ff;
+      }
     }
     .chat-ref {
       width: inherit;
