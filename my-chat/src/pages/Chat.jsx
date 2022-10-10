@@ -61,7 +61,7 @@ export default function Chat() {
   };
 
   const contactsRef = useClickOutside(() => {
-    toggleContacts();
+    contactsOpen && toggleContacts();
   });
 
   return (
