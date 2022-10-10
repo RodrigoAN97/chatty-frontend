@@ -10,6 +10,7 @@ import ChatContainer from "../components/ChatContainer";
 import { io } from "socket.io-client";
 import { BiMenu } from "react-icons/bi";
 import Logout from "../components/Logout";
+import { useClickOutside } from "../utils/hooks";
 
 export default function Chat() {
   const socket = useRef();
@@ -59,19 +60,25 @@ export default function Chat() {
     setCurrentChat(chat);
   };
 
+  const contactsRef = useClickOutside(() => {
+    toggleContacts();
+  });
+
   return (
     <Container>
       <div className="container">
-        <button className="toggle-contacts" onClick={toggleContacts}>
-          <BiMenu />
-        </button>
-        {contactsOpen && (
-          <Contacts
-            contacts={contacts}
-            currentUser={currentUser}
-            changeChat={handleChatChange}
-          />
-        )}
+        <div ref={contactsRef}>
+          <button className="toggle-contacts" onClick={toggleContacts}>
+            <BiMenu />
+          </button>
+          {contactsOpen && (
+            <Contacts
+              contacts={contacts}
+              currentUser={currentUser}
+              changeChat={handleChatChange}
+            />
+          )}
+        </div>
         <div ref={chatRef} className="chat-ref">
           <Logout />
           {!currentChat ? (
@@ -103,8 +110,6 @@ const Container = styled.div`
     height: 85vh;
     width: 85vw;
     background-color: #00000076;
-    display: grid;
-    grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
     }
