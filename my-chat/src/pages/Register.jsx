@@ -78,7 +78,7 @@ export default function Register() {
         <form onSubmit={(e) => handleSubmit(e)}>
           <div className="brand">
             <img src="logo.svg" alt="" />
-            <h1>snappy</h1>
+            <h1>chatty</h1>
           </div>
           <input
             type="text"
