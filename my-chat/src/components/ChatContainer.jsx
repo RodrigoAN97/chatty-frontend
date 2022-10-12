@@ -126,6 +126,7 @@ const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
     overflow: auto;
+    height: inherit;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
