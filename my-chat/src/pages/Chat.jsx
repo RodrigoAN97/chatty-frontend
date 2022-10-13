@@ -22,10 +22,14 @@ export default function Chat() {
   const [contactsOpen, setContactsOpen] = useState(true);
 
   useEffect(() => {
-    if (!getUser()) {
+    const user = getUser();
+    if (!user) {
       navigate("/login");
+    }
+    if (!user.isAvatarImageSet) {
+      navigate("/set-avatar");
     } else {
-      setCurrentUser(getUser());
+      setCurrentUser(user);
     }
   }, [navigate]);
 

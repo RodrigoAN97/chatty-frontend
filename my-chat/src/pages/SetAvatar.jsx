@@ -1,18 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastOptions } from "../utils/toastify";
 import axios from "axios";
-import {
-  getAvatarsRoute,
-  setAvatarRoute,
-} from "../utils/apiRoutes";
+import { setAvatarRoute } from "../utils/apiRoutes";
 import { getUser, setUser } from "../utils/localStorage";
+import { AvatarGenerator } from "random-avatar-generator";
 
 export default function SetAvatar() {
-  const effectRan = useRef(false);
   const navigate = useNavigate();
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +22,7 @@ export default function SetAvatar() {
   }, [navigate]);
 
   const setProfilePicture = async () => {
+    console.log(avatars[selectedAvatar]);
     if (selectedAvatar === undefined) {
       toast.error("Please select an avatar", toastOptions);
     } else {
@@ -45,16 +43,15 @@ export default function SetAvatar() {
   };
 
   useEffect(() => {
-    if (effectRan.current === false) {
-      async function fetchData() {
-        const av = await axios.get(getAvatarsRoute);
-        setAvatars(av.data.avatars);
-        setIsLoading(false);
-      }
-      fetchData();
+    const generator = new AvatarGenerator();
+    const generatedAvatars = [];
+    for (let i = 0; i < 10; i++) {
+      generatedAvatars.push(generator.generateRandomAvatar());
     }
-    return () => (effectRan.current = true);
-  }, [avatars]);
+
+    setAvatars(generatedAvatars);
+    setIsLoading(false);
+  }, []);
 
   return (
     <>
@@ -77,7 +74,7 @@ export default function SetAvatar() {
                   }`}
                 >
                   <img
-                    src={`data:image/svg+xml;base64,${avatar.base64}`}
+                    src={avatar}
                     alt="avatar"
                     onClick={() => setSelectedAvatar(index)}
                   />
