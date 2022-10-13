@@ -1,4 +1,4 @@
-import { Avatar, User } from "../model/userModels.js";
+import { User } from "../model/userModels.js";
 import bcrypt from "bcrypt";
 
 export const register = async (req, res, next) => {
@@ -78,16 +78,6 @@ export const getAllUsers = async (req, res, next) => {
       "_id",
     ]);
     return res.json(users);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getAvatars = async (req, res, next) => {
-  console.log("add avatar", req);
-  try {
-    const avatars = await Avatar.find({});
-    return res.json({ avatars });
   } catch (err) {
     next(err);
   }
