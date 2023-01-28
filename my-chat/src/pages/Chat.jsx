@@ -26,7 +26,7 @@ export default function Chat() {
     if (!user) {
       navigate("/login");
     }
-    if (!user.isAvatarImageSet) {
+    else if (!user.isAvatarImageSet) {
       navigate("/set-avatar");
     } else {
       setCurrentUser(user);
