@@ -30,7 +30,7 @@ server.listen(process.env.PORT, () =>
 
 const io = new Server(server, {
   cors: {
-    origin: "http://44.201.201.242",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true,
   },
