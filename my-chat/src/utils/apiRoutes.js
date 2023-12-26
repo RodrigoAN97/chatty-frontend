@@ -1,4 +1,4 @@
-export const host = "http://44.201.201.242:8000";
+export const host = "http://localhost:8000";
 
 export const registerRoute = `${host}/api/auth/register`;
 export const loginRoute = `${host}/api/auth/login`;
